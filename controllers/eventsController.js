@@ -1,6 +1,6 @@
 const Event = require('../models/Event');
 const jwt = require('jsonwebtoken');
-const jwtSecret = require('../config/config')
+const { jwtSecret } = require('../config/config')
 
 exports.createEvent = async (req, res) => {
     const token = req.cookies.jwt;
@@ -10,7 +10,7 @@ exports.createEvent = async (req, res) => {
     }
     let userId
     try {
-        const decodedToken = jwt.verify = (token, jwtSecret)
+        const decodedToken = jwt.verify(token, jwtSecret)
         userId = decodedToken.id;
     } catch (error) {
         return res.status(401).json({ message: 'Not authorized' })
@@ -40,6 +40,20 @@ exports.getAllEvents = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ error: error.message })
+
+    }
+}
+
+
+exports.deleteEvent = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        await Event.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Event deleted successfully' })
+
+    } catch (error) {
+        return res.staus(401).json({ error: error.message })
 
     }
 }

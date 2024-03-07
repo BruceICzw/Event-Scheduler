@@ -8,3 +8,7 @@ const router = express.Router();
 router.get('/', Auth.userAuth, eventsController.getAllEvents)
 //Create a new Event
 router.post('/upload', Auth.userAuth, eventsController.createEvent)
+
+router.delete('/delete/:id', Auth.userAuth, eventsController.deleteEvent)
+
+module.exports = router

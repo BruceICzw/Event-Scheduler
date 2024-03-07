@@ -1,10 +1,22 @@
-const User = require('../models/User');
 
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../config/config')
 
 //Get User profile
 exports.getProfile = async (req, res) => {
+    const token = req.cookies.jwt;
+    if (!token) {
+        return res.status(401).json({ message: 'Not authorized' })
+    }
+    let userId
     try {
-        const userId = req.user.UserId;
+        const decodedToken = jwt.verify(token, jwtSecret)
+        userId = decodedToken.id;
+    } catch (error) {
+        return res.status(401).json({ message: 'Not authorized' })
+    }
+    try {
         const user = await User.findById(userId);
 
         res.status(200).json(user);
@@ -16,8 +28,18 @@ exports.getProfile = async (req, res) => {
 //Update user Profile
 
 exports.updateProfile = async (req, res) => {
+    const token = req.cookies.jwt;
+    if (!token) {
+        return res.status(401).json({ message: 'Not authorized' })
+    }
+    let userId
     try {
-        const userId = req.user.userId;
+        const decodedToken = jwt.verify(token, jwtSecret)
+        userId = decodedToken.id;
+    } catch (error) {
+        return res.status(401).json({ message: 'Not authorized' })
+    }
+    try {
         const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
         res.status(200).json(updatedUser)
     } catch (error) {
