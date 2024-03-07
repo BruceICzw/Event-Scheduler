@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = require('../config/config');
 
 exports.register = async (req, res, next) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     if (password.length < 6) {
         return res.status(400).json({ message: 'Password is less than 6 characters' })
     }
@@ -12,11 +12,12 @@ exports.register = async (req, res, next) => {
         await User.create({
             username,
             password: hash,
+            email,
         })
             .then((user) => {
                 const maxAge = 3 * 60 * 60;
                 const token = jwt.sign(
-                    { id: user._id, username },
+                    { id: user._id, username, email },
                     jwtSecret,
                     {
                         expiresIn: maxAge //3hrs in seconds
@@ -44,7 +45,7 @@ exports.register = async (req, res, next) => {
 
 
 exports.login = async (req, res, next) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     //Check if username and password are provided
     if (!username || !password) {
         return res.status(400).json({
@@ -66,7 +67,7 @@ exports.login = async (req, res, next) => {
                 if (result) {
                     const maxAge = 3 * 60 * 60; //3hrs in milliseconds
                     const token = jwt.sign(
-                        { id: user._id, username, role: user.role }, jwtSecret, { expiresIn: maxAge * 1000 }
+                        { id: user._id, username, email }, jwtSecret, { expiresIn: maxAge * 1000 }
                     );
                     res.cookie('jwt', token, {
                         httpOnly: true,

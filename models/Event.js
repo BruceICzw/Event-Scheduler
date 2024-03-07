@@ -18,6 +18,11 @@ const eventSchema = new mongoose.Schema({
     time: {
         type: String,
         required: true
+    },
+    user: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user',
+        required: true,
     }
 });
 module.exports = mongoose.model('Event', eventSchema);
