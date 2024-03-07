@@ -13,31 +13,31 @@ This is a RESTful API for scheduling and managing events, built with Express.js,
 
 1. Clone the repository:
 
-    ```bash
-    git clone (https://github.com/BruceICzw/Event-Scheduler)
-    cd event-scheduling-api
-    ```
+   ```bash
+   git clone https://github.com/BruceICzw/Event-Scheduler
+   cd event-scheduling-api
+   ```
 
 2. Install dependencies:
 
-    ```bash
-    npm install
-    ```
-
+   ```bash
+   npm install
+   ```
 
 3. Start the server:
 
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
 4. Set Up configuration
-    Create a `config` folder in the root directory and add a `config.js` file
-    Add this code
-    ```javascript
-    const jwtSecret = 'your-secret-here';//Add your jsonwebtoken secret string here
-    module.exports = jwtSecret;
-    ```
+   Create a `config` folder in the root directory and add a `config.js` file
+   Add this code
+   ```javascript
+   const jwtSecret = "your-secret-here"; //Add your jsonwebtoken secret string here
+   module.exports = jwtSecret;
+   ```
+
 ## API Endpoints
 
 ### Events
@@ -61,6 +61,7 @@ This is a RESTful API for scheduling and managing events, built with Express.js,
 ## Request and Response Formats
 
 ### Event Schema:
+
 ```json
 {
   "title": "String",
@@ -70,7 +71,9 @@ This is a RESTful API for scheduling and managing events, built with Express.js,
   "user": "ObjectId" //Automatically generated from jwt token
 }
 ```
+
 ### User Schema:
+
 ```json
 {
   "username": "String",
@@ -78,19 +81,20 @@ This is a RESTful API for scheduling and managing events, built with Express.js,
   "password": "String"
 }
 ```
+
 ### Authentication:
 
 #### Request:
 
 ```json
 {
-    "username": "String",
-    "password": "String"
+  "username": "String",
+  "password": "String"
 }
-
 ```
 
 #### Response
+
 ```json
 {
   "token": "JWT Token"
@@ -98,12 +102,14 @@ This is a RESTful API for scheduling and managing events, built with Express.js,
 ```
 
 ## Dependencies
+
 - Express.js: Web framework for Node.js
 - Mongoose: MongoDB object modeling tool
 - bcryptjs: Password hashing library
 - jsonwebtoken: JWT authentication library
 
 ## Contibution
+
 Contributions are welcome! Feel free to open issues or submit pull requests
 
 ## License
