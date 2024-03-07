@@ -65,16 +65,16 @@ exports.getAllEvents = async (req, res) => {
             res.status(500).json({ error: error.message });
         }
     }
+}
+exports.deleteEvent = async (req, res) => {
 
-    exports.deleteEvent = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Event.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Event deleted successfully' })
 
-        try {
-            const { id } = req.params;
-            await Event.findByIdAndDelete(id);
-            res.status(200).json({ message: 'Event deleted successfully' })
+    } catch (error) {
+        return res.staus(401).json({ error: error.message })
 
-        } catch (error) {
-            return res.staus(401).json({ error: error.message })
-
-        }
     }
+}
