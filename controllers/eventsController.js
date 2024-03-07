@@ -42,18 +42,39 @@ exports.getAllEvents = async (req, res) => {
         res.status(500).json({ error: error.message })
 
     }
-}
+    exports.updateEvent = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { title, description, date, time } = req.body;
 
+            const event = await Event.findById(id);
 
-exports.deleteEvent = async (req, res) => {
+            if (!event) {
+                return res.status(404).json({ message: 'Event not found' });
+            }
 
-    try {
-        const { id } = req.params;
-        await Event.findByIdAndDelete(id);
-        res.status(200).json({ message: 'Event deleted successfully' })
+            event.title = title;
+            event.description = description;
+            event.date = date;
+            event.time = time;
 
-    } catch (error) {
-        return res.staus(401).json({ error: error.message })
+            await event.save();
 
+            res.status(200).json({ message: 'Event updated successfully' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
-}
+
+    exports.deleteEvent = async (req, res) => {
+
+        try {
+            const { id } = req.params;
+            await Event.findByIdAndDelete(id);
+            res.status(200).json({ message: 'Event deleted successfully' })
+
+        } catch (error) {
+            return res.staus(401).json({ error: error.message })
+
+        }
+    }
